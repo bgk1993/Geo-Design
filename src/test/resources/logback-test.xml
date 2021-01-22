@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="30 seconds">
+	<appender name="FEED"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>logs/bidder.feed</File>
+		<encoder>
+			<pattern>%date{yyyy-MM-dd HH:mm:ss.SSS} %msg%n</pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>logs/feed/%d{yyyy-MM-dd}/%d{HH}/bidder.feed.%d{yyyy-MM-dd-HH}.%i</fileNamePattern>
+			<maxHistory>30</maxHistory>
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>1GB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>INFO</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<filter class="com.mediaiq.caps.activation.dpi.server.log.MarkerFilter">
+			<Marker>BID_FEED</Marker>
+			<onMismatch>DENY</onMismatch>
+			<onMatch>ACCEPT</onMatch>
+		</filter>
+	</appender>
+
+	<appender name="APP"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>logs/bidder.app</File>
+		<encoder>
+			<pattern>%date [%thread] %-5level %logger - %msg%n</pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>logs/app/%d{yyyy-MM-dd}/%d{HH}/bidder.feed.%d{yyyy-MM-dd-HH}.%i</fileNamePattern>
+			<maxHistory>30</maxHistory>
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>1GB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+
+		<filter class="com.mediaiq.caps.activation.dpi.server.log.MarkerFilter">
+			<Marker>BID_FEED</Marker>
+			<onMismatch>ACCEPT</onMismatch>
+			<onMatch>DENY</onMatch>
+		</filter>
+
+	</appender>
+
+	<appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+		<appender-ref ref="FEED" />
+	</appender>
+	<appender name="AS" class="ch.qos.logback.classic.AsyncAppender">
+		<appender-ref ref="APP" />
+	</appender>
+
+
+
+	<logger name="org" level="error" />
+	<logger name="com" level="error" />
+	<logger name="ch" level="error" />
+	<logger name="com.mediaiq.caps.activation.dpi.server.Bidder" level="INFO" />
+	<root level="ERROR">
+		<appender-ref ref="ASYNC" />
+		<appender-ref ref="AS" />
+	</root>
+</configuration>
