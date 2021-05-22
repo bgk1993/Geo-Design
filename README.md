@@ -1,6 +1,6 @@
 ﻿# **IP-Geo Lookup**
 ### **use case**
-Goal of this usecase is to enable Server to perform Geographic information retrieval based on IP Address with extremely low latency.
+Goal of this usecase is to perform Geographic information retrieval based on IP Address with extremely low latency.
 Provide Longest Prefix Match Implementation for IPv4 Addresses with following properties
 
 1. Reliable: Results of IP-Geo lookup are always correct under all conditions
