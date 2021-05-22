@@ -13,9 +13,9 @@ Provide Longest Prefix Match Implementation for IPv4 Addresses with following pr
 ![](IP-Geo+Lookup.001.png) 
 
 1. IPv4 address has 32 bits representation in memory
-1. IPv4 can be represented using 32 bit integer value
-1. Value of each bit can be either 0 or 1
-1. Above memory block represents 255.255.255.0 in readable format grouping 8 bits
+2.  IPv4 can be represented using 32 bit integer value
+3. Value of each bit can be either 0 or 1
+4. Above memory block represents 255.255.255.0 in readable format grouping 8 bits
 
 **Data Structure Considerations**
 
@@ -23,23 +23,22 @@ Provide Longest Prefix Match Implementation for IPv4 Addresses with following pr
 
 ![](IP-Geo+Lookup.002.png) 
 
-\2. Trie Data Structure will satisfy both requirements(search & memory efficiency). We could also use Multi bit trie for IPv6 addresses to reduces search length.
+2. Trie Data Structure will satisfy both requirements(search & memory efficiency). We could also use Multi bit trie for IPv6 addresses to reduces search length.
 
-\3. If we use trie with recursive objects representation, it is not possible to do persistency & recovery of indices in quick time, because reading one object at a time from file & re-constructing trie will take more time. We cannot afford more recovery time. This problem can be solved if we use Trie Data Structure represented using Array because file IO operations can be performed much faster when bulk IO is performed using Array representation of Trie.
+3. If we use trie with recursive objects representation, it is not possible to do persistency & recovery of indices in quick time, because reading one object at a time from file & re-constructing trie will take more time. We cannot afford more recovery time. This problem can be solved if we use Trie Data Structure represented using Array because file IO operations can be performed much faster when bulk IO is performed using Array representation of Trie.
 
-\4. We need to store records for each IP address in Trie. If we store each record in trie, it will significantly increase the Heap size & hence recovery time is more. So next best option is to keep the records in file itself and use trie leaf nodes pointing to line no in the file where Record can be found.
+4. We need to store records for each IP address in Trie. If we store each record in trie, it will significantly increase the Heap size & hence recovery time is more. So next best option is to keep the records in file itself and use trie leaf nodes pointing to line no in the file where Record can be found.
 
-\5. Doing IO operation for each search is time taking operation & Also Random access to File is needed to access random bytes that constitute line. To overcome this, we can use Random Access File which supports random access to file and also Map the file contents to portion of memory for faster data access.
+5. Doing IO operation for each search is time taking operation & Also Random access to File is needed to access random bytes that constitute line. To overcome this, we can use Random Access File which supports random access to file and also Map the file contents to portion of memory for faster data access.
 
-\6. We can Memory map maximum of 2G. If the file size is greater than 2G, mapping same file multiple times for different memory portions is needed.
+6. We can Memory map maximum of 2G. If the file size is greater than 2G, mapping same file multiple times for different memory portions is needed.
 
-\7. Also we use INTEGER for representing line no which means we will have limitation where maximum no records must be less than MAX integer value.
+7. Also we use INTEGER for representing line no which means we will have limitation where maximum no records must be less than MAX integer value.
 
 ![](IP-Geo+Lookup.003.png) 
 
-\8. Also Array uses Integer index. So Practically Trie size cannot be greater than Integer.MAX\_VALUE
+8. Also Array uses Integer index. So Practically Trie size cannot be greater than Integer.MAX\_VALUE
 
-\9. 
 
 ![](IP-Geo+Lookup.004.png) 
 
@@ -50,8 +49,8 @@ Provide Longest Prefix Match Implementation for IPv4 Addresses with following pr
 As a general rule of thumb, 
 
 1. Insertion of '0s' is performed on left nodes
-1. Insertion of '1s' is performed on right nodes
-1. Image how tree insertion works, as long as prefix bits are matching we don’t insert any new nodes because they are already part of tree. Moment when bit mismatch happens, tree insertion takes different approach where new node is inserted as a new branch. Same approach is taken in case of array as well. As long as prefix bits are matching no nodes are inserted into the [array](http://array.It). Moment when prefix mismatch happens new branch needs to be inserted in array. Only difference b/w graph & array data structure is insertion approach. Graph uses object references to point to child nodes where as array uses special pointer(integer index) that will tell what is the next node where insertion should happen
+2. . Insertion of '1s' is performed on right nodes
+3. Image how tree insertion works, as long as prefix bits are matching we don’t insert any new nodes because they are already part of tree. Moment when bit mismatch happens, tree insertion takes different approach where new node is inserted as a new branch. Same approach is taken in case of array as well. As long as prefix bits are matching no nodes are inserted into the [array](http://array.It). Moment when prefix mismatch happens new branch needs to be inserted in array. Only difference b/w graph & array data structure is insertion approach. Graph uses object references to point to child nodes where as array uses special pointer(integer index) that will tell what is the next node where insertion should happen
 
 **1 bit representation**
 
@@ -118,7 +117,7 @@ Number of nodes needed in which case = (2^(32+1)-1) which cannot be represented 
 But, 
 
 1. we don’t get full IP addresses always. We get prefix lengths from 16 to 32. At maximum, we can store all IPv4 addresses in array trie when average prefix length is 30 or less. Because with 30 bits we can store all the prefixes available in IPv4 address space in which case no of nodes in the array trie Equals to (2^(30+1)-1). This number can be represented using signed Integer value(max value is 2^31-1)
-1. Even in the worst case scenario, we don’t fill complete IPv4 address space because those addresses are from particular geographic region & not from Global IPv4 namespace.
+2. Even in the worst case scenario, we don’t fill complete IPv4 address space because those addresses are from particular geographic region & not from Global IPv4 namespace.
 
 **Class Diagram**
 
