@@ -1,10 +1,11 @@
 ﻿# **IP-Geo Lookup**
 ### **use case**
 Provide Longest Prefix Match Implementation for IPv4 Addresses with following properties
-Reliable: Results of IP-Geo lookup are always correct under all conditions
-Available: IP-Geo lookup operation has to be highly available on each bidder instance
-Scalable: As number of rows of IP Address increase in each region, solution must scale to accommodate new IP-Geo mappings
-Maintainable: As size of IP-Geo lookup increases, solution must be in a maintainable state for future change requests
+
+1. Reliable: Results of IP-Geo lookup are always correct under all conditions
+2. Available: IP-Geo lookup operation has to be highly available on each bidder instance
+3. Scalable: As number of rows of IP Address increase in each region, solution must scale to accommodate new IP-Geo mappings
+4. Maintainable: As size of IP-Geo lookup increases, solution must be in a maintainable state for future change requests
 
 ## **Design**
 **IPv4 structure**
